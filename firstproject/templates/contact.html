@@ -1,0 +1,25 @@
+{% extends 'basic.html' %}
+{% load crispy_forms_tags %}
+
+
+{% block body %}
+{% load static %}
+    <div class="container-lg">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 py-4">
+               <div class="section-title">
+                <h1 class="text-center fs-2 fw-bold">Contact Us</h1>
+               </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    {{form | crispy}}
+                    <input type="submit" class="btn btn-primary px-3 my-2" value="Send Us">
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

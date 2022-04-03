@@ -1,0 +1,21 @@
+{% extends 'basic.html' %}
+
+
+
+{% block body %}
+<section class="delete" id="delete">
+    <div class="container-lg">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="delete-item py-5 text-center">
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        <span class="text-center fs-6">Are you sure to delete this post?</span>
+                        <input type="submit" class="btn btn-info" value="Yes">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock body %}

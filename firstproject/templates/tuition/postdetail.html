@@ -1,0 +1,136 @@
+{% extends 'basic.html' %}
+{% load humanize %}
+{% load tag %}
+
+
+
+{% block body %}
+   <section class="postdetail" id="postdetail">
+    <div class="container-lg">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="section-title py-5">
+                    <h1 class="fs-2 fw-bold text-center">Post Details</h1>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="post-item shadow-sm bg-white rounded p-4 mb-5">
+                    <div class="author-info">
+                        <img src="{{object.image.url}}" class="img-thumbnail rounded-circle w-25 mb-3" alt="detail-img">
+                        <div class="author">
+                           <h2 class="fs-3 fw-bold m-0">{{object.user.username}}</h2>
+                            <p class="text-muted">{{object.created_at | naturaltime}}</p>
+                            <h3>{{object.titlecase}}</h3>
+                            Subject = {{object.get_subject_list}} <br>
+                            Class = {{object.get_class_list}}<br>
+                            Category = {{object.category}} <br>
+                            Email = {{object.email}} <br>
+                            Salary = {{object.salary}} <br>
+                            Available = {{object.available}} <br>
+                            Medium = {{object.medium}}<br>
+                            Details = {{object.details}} <br>
+                            <div>
+                                {{object.total_likes}} People likes this post
+                                {{object.total_views}} People views this post
+                            </div>
+                            <div>
+                                <form action="/tuition/likepost/{{object.id}}/" method="post">
+                                    {% csrf_token %}
+                                    {% if liked %}
+                                        <button type="submit" class="btn btn-danger">Unlike</button>
+                                    {% else %}
+                                    <button type="submit" class="btn btn-primary">Like</button>
+                                    {% endif %}
+                                </form>
+                            </div>
+                            <!-- <div>
+                                <div class="fb-comments" data-href="http://127.0.0.1:8000/tuition/postdetail/{{object.id}}/" data-width="" data-numposts="10"></div>
+                            </div>
+                            <div>
+                                <div class="fb-like" data-href="http://127.0.0.1:8000/tuition/postdetail/{{object.id}}/" data-width="" data-layout="standard" data-action="like" data-size="small" data-share="true"></div>
+                            </div> -->
+                            {% if request.user == object.user %}
+                                <a href="/tuition/edit/{{object.id}}" class="btn btn-info my-3 px-3">Update</a>
+                                <a href="/tuition/addphoto/{{object.id}}" class="btn btn-info my-3 px-3">Add Photo</a>
+                                <a href="/tuition/delete/{{object.id}}" class="btn btn-danger my-3 px-3 ms-3">Delete</a>
+                            {% endif %}
+                            <div id="comment" class="comment">
+                                <form action="/tuition/addcomment/" method="post">
+                                    {% csrf_token %}
+                                    <label for="commentfield" class="form-label ">Your Comment</label>
+                                    <input type="text" name="comment" id="commentfield" class="form-control" placeholder="Write a comment...">
+                                    <input type="hidden" name="postid" value="{{object.id}}">
+                                    <input type="hidden" name="parentid" value="">
+                                    <input type="submit" value="Comment" class="btn btn-primary my-3">
+                                </form>
+                            </div>
+                            <div>
+                    
+                                {% for comment in comments %}
+                                    <div class="row">
+                                        <div class="col-lg-1">
+                                            <img src="{{comment.user.userprofile.image.url}}" class="img-thumbnail rounded" alt="">
+                                        </div>
+                                        <div class="col-lg-7">
+                                            <b>{{comment.user.username}}</b> <span class="bedge bedge-secondary">{{comment.created_at | naturaltime}}</span>
+                                            <div>{{comment.text}}</div>
+                                            <!-- Button trigger modal -->
+                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                                Delete Comment
+                                            </button>
+                                            <!-- Modal -->
+                                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Comment Delete</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                    Are you sure to delete this comment?
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                    <button type="button" class="btn btn-primary"> <a href="/tuition/commentdelete/{{comment.id}}/" class="text-reset text-decoration-none">Delete</a></button>
+                                                    </div>
+                                                </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <form action="/tuition/addcomment/" method="post">
+                                                    {% csrf_token %}
+                                                   <div class="form-group">
+                                                    <label for="replifield" class="form-label">Reply</label>
+                                                    <input type="text" name="comment" id="replifield"  class="form-control" placeholder="Write a reply...">
+                                                    <input type="hidden" name="postid" value="{{object.id}}">
+                                                    <input type="hidden" name="parentid" value="{{comment.id}}">
+                                                   </div> <br>
+                                                   <input type="submit" value="Reply" class="btn btn-primary mb-3">
+                                                </form>
+                                            </div>
+                                            {% for reply in DictofReply|get_reply:comment.id %}
+                                            <div class="row">
+                                                <div class="col-lg-1">
+                                                    <img src="{{reply.user.userprofile.image.url}}" class="img-thumbnail rounded" alt="">
+                                                </div>
+                                                <div class="col-lg-7">
+                                                    <b>{{reply.user.username}}</b> <span class="bedge bedge-secondary">{{reply.created_at | naturaltime}}</span>
+                                                    <div>{{reply.text}}</div>
+                                                </div>
+                                            </div>
+                                            {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+   </section>
+{% endblock body %}

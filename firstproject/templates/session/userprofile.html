@@ -1,0 +1,29 @@
+{% extends 'basic.html' %}
+
+
+
+{% block body %}
+    <section class="userprofile py-5" id="userprofile">
+        <div class="container-lg py-4">
+            <div class="row justify-content-center align-items-center">
+                <div class="col text-center">
+                    <img src="{{user.userprofile.image.url}}" class="w-50 mb-2" alt=""> <br>
+                    {{user.username}} ({{user.userprofile.profession}}) <br>
+                    {{user.userprofile.biodata}}
+                </div>
+                <div class="col">
+                    <!-- <button class="btn btn-secondary"><a href="/tuition/pdf/">PDF</a></button> -->
+                    <a href="/session/tuitionprofile/" class="btn btn-info text-white">Tuition Profile Create</a><br>
+                    Blood_group = {{user.userprofile.blood_group}} <br>
+                    gender = {{user.userprofile.gender}} <br>
+                    nationality = {{user.userprofile.nationality}} <br>
+                    religion = {{user.userprofile.religion}} <br>
+                    profession = {{user.userprofile.profession}} <br>
+                    birth_date = {{user.userprofile.birth_date}} <br>
+                    address = {{user.userprofile.address}} <br>
+                    phone = {{user.userprofile.phone}} <br>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

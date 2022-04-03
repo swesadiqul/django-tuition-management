@@ -1,0 +1,95 @@
+{% extends 'basic.html' %}
+
+
+
+{% block body %}
+<section class="postlist" id="postlist">
+    <div class="container-lg">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 py-5">
+                <div class="section-title">
+                    <h2 class="text-center fs-2 fw-bold">Available tuition here</h2>
+                    <p class="fs-6 text-muted text-center">If you a student, so choose you best teacher.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-center mb-5">
+            <div class="col-lg-6 bg-white rounded shadow-sm p-4">
+                <form action="/tuition/filter/" method="post">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class=" col input-group mb-3">
+                            <select class="form-select" id="inputGroupSelect02" name="subject">
+                                <option></option>
+                                {% for i in subjects %}
+                                <option value="{{i}}">{{i}}</option>
+                                {% endfor %}
+                            </select>
+                            <label class="input-group-text" for="inputGroupSelect02">Subjects</label>
+                        </div>
+                        <div class=" col input-group mb-3">
+                            <select class="form-select" id="inputGroupSelect02" name="class_in">
+                                <option></option>
+                                {% for i in classes %}
+                                <option value="{{i}}">{{i}}</option>
+                                {% endfor %}
+                            </select>
+                            <label class="input-group-text" for="inputGroupSelect02">Class</label>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">Salary</span>
+                        <input type="text" aria-label="Salary From" class="form-control" placeholder="Form" name="salary_from">
+                        <input type="text" aria-label="Salary To" class="form-control" placeholder="To" name="salary_to">
+                    </div>
+                        <div class="form-check mb-3">
+                            <input type="checkbox" class="form-check-input" id="exampleCheck1" name="available">
+                            <label class="form-check-label" for="exampleCheck1">Only Available</label>
+                        </div>
+                        <input type="submit" class="btn btn-primary px-5" value="Filter">
+                </form>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            {% for p in posts %}
+            <div class="col-lg-8 border rounded p-3 mb-3">
+                <h3 class="fs-5 mb-1"><a href="/session/otherprofile/{{p.user.username}}/">{% if p.user.get_full_name %}{{p.user.get_full_name}}{% else %}{{p.user.username}}{% endif %}</a></h3>
+                <span class="badge bg-secondary">{{p.created_at}}</span>
+                <div>
+                    <strong>-Searching for a teacher</strong>
+                </div>
+                <div class="preview">
+                    for <b>{{p.medium}}</b> medium's student. <br>
+                    in {{p.district}} District. <br>
+                    <b>Salary:</b> {{p.salary}} <br>
+                    <p class="card-text my-2">
+                        <a href="/tuition/postdetail/{{p.id}}/">...Details</a>
+                    </p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <!-- <div class="row justify-content-center">
+            {% for p in posts %}
+                <div class="col-lg-8">
+                   <div class="post-item shadow-sm bg-white rounded p-4 mb-5">
+                       <div class="author-info d-flex align-items-center">
+                           <img src="{{p.image.url}}" class="img-thumbnail rounded-circle w-25" alt="profile-img">
+                           <div class="author ms-3">
+                               <h3 class="fs-5 mb-1"><a href="/session/otherprofile/{{p.user.username}}/">{{p.user.username}}</a></h3>
+                               <p class=" fs-6 text-muted m-0">{{p.category}}</p>
+                           </div>
+                       </div>
+                       <div class="post-desc mt-3">
+                           <h5>{{p.titlecase}}</h5>
+                           <p class="text-muted">{{p.details_short}}</p>
+                           <a href="/tuition/postdetail/{{p.id}}" class="btn btn-outline-primary px-3">Details</a>
+                       </div>
+                   </div>
+                </div>
+            {% endfor %}
+        </div> -->
+    </div>
+</section>
+{% endblock body %}

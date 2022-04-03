@@ -1,0 +1,23 @@
+{% extends 'basic.html' %}
+{% load crispy_forms_tags %}
+
+
+{% block body %}
+    <section class="change_password py-5" id="change_password">
+        <div class="container-lg py-4">
+            <div class="row justify-content-center">
+                <div class="col-lg-6">
+                    <div class="login-item bg-white shadow-sm p-4 rounded">
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            {{form | crispy}}
+                            <div class="d-grid gap-2 mt-3">
+                                <input type="submit" class="btn btn-primary" value="Change Password">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends 'basic.html' %}
+
+
+
+{% block body %}
+    <section class="otherprofile py-5" id="otherprofile">
+        <div class="container py-4">
+            <div class="row justify-content-center align-items-center mb-4">
+                <div class="col-lg-3 text">
+                    <img src="{{user.userprofile.image.url}}" class="w-50 mb-2" alt=""> <br>
+                </div>
+                <div class="col-lg-5">
+                    {{user.username}} ({{user.userprofile.profession}}) <br>
+                    {{user.userprofile.biodata}}
+                </div>
+            </div>
+            <div class="row justify-content-center mb-4">
+                <div class="col-lg-3"></div>
+                <div class="col-lg-5">
+                    <h3>Personal Information</h3>
+                    <hr>
+                    {% if user.userprofile %}
+                    <!-- <button class="btn btn-secondary"><a href="/tuition/pdf/">PDF</a></button> -->
+                    Blood_group = {{user.userprofile.blood_group}} <br>
+                    gender = {{user.userprofile.gender}} <br>
+                    nationality = {{user.userprofile.nationality}} <br>
+                    religion = {{user.userprofile.religion}} <br>
+                    profession = {{user.userprofile.profession}} <br>
+                    birth_date = {{user.userprofile.birth_date}} <br>
+                    address = {{user.userprofile.address}} <br>
+                    phone = {{user.userprofile.phone}} <br>
+                    {% else %}
+                    <p>Sorry, {{user.username}} hasn't created account still !</p>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row justify-content-center mb-4">
+                <div class="col-lg-3"></div>
+                <div class="col-lg-5">
+                    <h3>Tuition Information</h3>
+                    <hr>
+                   {% if user.tuitionprofile %}
+                   district = {{user.tuitionprofile.district}}  <br>
+                   style = {{user.tuitionprofile.style}} <br>
+                   place = {{user.tuitionprofile.place}} <br>
+                   approach = {{user.tuitionprofile.approach}} <br>
+                   medium = {{user.tuitionprofile.medium}} <br>
+                   subject = {% for s in user.tuitionprofile.subject.all %}{{s}}
+                    {% if not forloop.last %},{% endif %} {% endfor %} <br>
+                   class_in = {% for c in user.tuitionprofile.class_in.all %}{{c}}
+                    {% if not forloop.last %},{% endif %} {% endfor %} <br>
+                   salary = {{user.tuitionprofile.salary}} <br>
+                   days_per_week = {{user.tuitionprofile.days_per_week}} <br>
+                   education = {{user.tuitionprofile.education}} <br>
+                   status = {{user.tuitionprofile.status}}
+                   {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

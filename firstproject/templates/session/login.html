@@ -1,0 +1,24 @@
+{% extends 'basic.html' %}
+{% load crispy_forms_tags %}
+
+
+{% block body %}
+    <section class="login py-5" id="login">
+        <div class="container-lg py-4">
+            <div class="row justify-content-center">
+                <div class="col-lg-6">
+                    <div class="login-item bg-white shadow-sm p-4 rounded">
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            {{form | crispy}}
+                            <div class="d-grid gap-2 my-3">
+                                <input type="submit" class="btn btn-primary" value="Log In">
+                            </div>
+                        </form>
+                        <p class="text-center"><a href="{% url 'password_reset' %}">Forgotten Password?</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

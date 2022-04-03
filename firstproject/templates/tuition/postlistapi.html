@@ -1,0 +1,18 @@
+{% extends 'basic.html' %}
+
+
+
+
+{% block body %}
+   <div class="container-lg">
+       <div class="row">
+           <div class="col-lg-6 offset-lg-3 mb-3">
+                {% for data in api %}
+                    <b>{{data.title | title}}</b> <br>
+                    {{data.body}}
+                    <hr>
+                {% endfor %}
+           </div>
+       </div>
+   </div>
+{% endblock %}
